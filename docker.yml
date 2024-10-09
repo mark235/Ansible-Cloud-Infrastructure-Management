@@ -1,0 +1,46 @@
+---
+- name: Install Docker on managed nodes
+  hosts: managed_nodes
+  become: yes
+  tasks:
+    - name: Update all packages
+      yum:
+        name: '*'
+        state: latest
+
+    - name: Install required dependencies
+      yum:
+        name:
+          - amazon-linux-extras
+          - curl
+          - ca-certificates
+        state: present
+
+    - name: Enable Docker in amazon-linux-extras
+      command: amazon-linux-extras enable docker
+
+    - name: Install Docker
+      yum:
+        name: docker
+        state: present
+
+    - name: Start and enable Docker service
+      service:
+        name: docker
+        state: started
+        enabled: true
+
+    - name: Add ec2-user to the docker group
+      user:
+        name: ec2-user
+        groups: docker
+        append: yes
+
+    - name: Verify Docker installation
+      command: docker --version
+      register: docker_version
+      ignore_errors: true
+
+    - name: Display Docker version
+      debug:
+        var: docker_version.stdout

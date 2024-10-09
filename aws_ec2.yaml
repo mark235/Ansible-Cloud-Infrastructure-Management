@@ -1,0 +1,22 @@
+---
+plugin: amazon.aws.aws_ec2
+profile: AWSAdministratorAccess-905418229977  # The AWS profile to use, if configured in AWS CLI
+regions:
+  - us-east-1
+
+filters:
+  instance-state-name: running
+  "tag:Type": Managed  # Filters for instances with the tag 'Type' set to 'Managed'
+
+hostnames:
+  - tag:Name  # Uses the 'Name' tag as hostname if available
+compose:
+  ansible_host: public_ip_address  # Maps Ansible 'ansible_host' to the public IP
+
+keyed_groups:
+  - key: tags.Type  # Groups instances by 'Type' tag
+    prefix: type    # Adds 'type_' prefix to each group based on 'Type' tag
+  - key: tags.Name  # Groups instances by 'Name' tag
+    prefix: name    # Adds 'name_' prefix to each group based on 'Name' tag
+  - key: availability_zone  # Groups instances by availability zone
+    prefix: az      # Adds 'az_' prefix based on availability zone
