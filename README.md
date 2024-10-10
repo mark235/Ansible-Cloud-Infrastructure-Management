@@ -3,7 +3,7 @@
 ## 📄 Description
 This project demonstrates a scalable and automated setup of WordPress on AWS EC2 instances using Ansible, leveraging Ansible’s automation capabilities to streamline deployment. The project provisions three EC2 instances: one as the **Control Node** (where Ansible is installed) and two **Managed Nodes**. Ansible is configured on the Control Node to manage the other two instances, where Docker is installed, and WordPress is deployed within a Docker container. Additionally, a dynamic inventory setup is configured using AWS EC2’s plugin for Ansible, allowing the project to automatically pull EC2 instance information based on tags, regions, and states.
 
-[![Architecture Diagram](architecture.png)](architecture.png)
+[![Architecture Diagram](file/architecture.png)](file/architecture.png)
 
 ### Key Objectives
 
